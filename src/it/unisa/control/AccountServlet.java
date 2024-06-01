@@ -108,8 +108,10 @@ public class AccountServlet extends HttpServlet {
 				request.getSession().removeAttribute("spedizione");
 				request.getSession().setAttribute("spedizione", daoSped.doRetrieveByKey(user.getIndirizzo(),user.getCap()));
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				request.setAttribute("errorMessage", "Si è verificato un errore durante l'elaborazione della richiesta.");
+			    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/errorPage.jsp");
+			    dispatcher.forward(request, response);
 			}
 		}
 		
