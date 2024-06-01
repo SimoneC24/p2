@@ -1,9 +1,12 @@
 package it.unisa.control;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +38,8 @@ public class RegistrazioneServlet extends HttpServlet {
 		String dataNascita = request.getParameter("nascita");
 		String username = request.getParameter("us");
 		String pwd = request.getParameter("pw");
+		String hashedPassword = hashPassword(pwd);
+		
 
         String[] parti = dataNascita.split("-");
         dataNascita = parti[2] + "-" + parti[1] + "-" + parti[0];
@@ -46,7 +51,7 @@ public class RegistrazioneServlet extends HttpServlet {
 			user.setCognome(cognome);
 			user.setEmail(email);
 			user.setDataDiNascita(Date.valueOf(dataNascita));
-			user.setUsername(username);
+			user.setPassword(hashedPassword);
 			user.setPassword(pwd);
 			user.setAmministratore(false);
 			user.setCap(null);
@@ -62,4 +67,14 @@ public class RegistrazioneServlet extends HttpServlet {
 
 	}
 
+	public static String hashPassword(String password) {
+	    try {
+	        MessageDigest md = MessageDigest.getInstance("SHA-256");
+	        byte[] hashedBytes = md.digest(password.getBytes());
+	        return Base64.getEncoder().encodeToString(hashedBytes);
+	    } catch (NoSuchAlgorithmException e) {
+	        // Handle error
+	        return null;
+	    }
+	}
 }

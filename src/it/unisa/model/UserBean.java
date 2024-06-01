@@ -1,6 +1,10 @@
 package it.unisa.model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 public class UserBean implements Serializable {
@@ -40,7 +44,7 @@ public class UserBean implements Serializable {
 	}
 	
 	public void setPassword(String password) {
-		this.password = password;
+		this.password =  password;
 	}
 	
 	public String getEmail() {
