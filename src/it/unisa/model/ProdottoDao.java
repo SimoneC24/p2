@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -151,10 +153,12 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 
 		ArrayList<ProdottoBean> products = new ArrayList<ProdottoBean>();
 
+		List<String> validColumns = Arrays.asList("ID_PRODOTTO", "NOME", "PREZZO", "QUANTITA", "PIATTAFORMA", "GENERE", "DATA_USCITA", "IN_VENDITA", "IVA", "IMMAGINE");
 		String selectSQL = "SELECT * FROM " + ProdottoDao.TABLE_NAME;
-
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
+		
+		//Verifico se il valore di order è valido, questo annulla la vulnerabilità
+		if (order != null && !order.equals("") && validColumns.contains(order.toUpperCase())) {
+	        selectSQL += " ORDER BY " + order;
 		}
 
 		try {
