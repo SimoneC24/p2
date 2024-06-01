@@ -43,7 +43,7 @@ public class CatalogoServlet extends HttpServlet {
 					bean.setDescrizioneDettagliata(request.getParameter("descDett"));
 					bean.setInVendita(true);
 					prodDao.doSave(bean);
-				}
+				} 
 				
 				else if(action.equalsIgnoreCase("modifica")) {
 					
